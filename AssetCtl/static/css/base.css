@@ -1,0 +1,58 @@
+.navbar{
+    margin:0%;
+    color: black;
+    display: block;
+    padding: .3%;
+    /*position:static;*/
+    z-index: 1;
+    width:100%;
+    overflow: hidden;
+    border-style: none;
+    /*border-color:  linear-gradient(to right,#292b2c ,#0275d8 ,#f0ad4e); ;*/
+    border-image: linear-gradient(to right,white,#fca93d,#0275d8,#fca93d,white) 1 !important;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrole_bg::-webkit-scrollbar {
+    display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrole_bg {
+    /*-ms-overflow-style: none;   IE and Edge 
+    scrollbar-width: none;  Firefox */
+    color:black;
+} 
+.regform{
+    width: 60%;
+    margin-left: 4%;
+    padding: 3%; 
+    background-color: rgba(120, 125, 150, 0.295);
+  }
+ /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the wnavbar (.icon) */
+ @media screen and (max-width: 900px) {
+    .regform{
+        width: 90%;
+    }
+  }
+
+  nav a:hover, .active
+  {
+      border: 2px solid rgb(0, 6, 90);
+      border-style: none none solid none;
+      cursor: pointer;
+  }
+  nav a span{
+      margin-left: 20px;
+      font-size: 13pt;
+      text-shadow: rgb(45, 36, 36);
+  }
+  .alert{
+      margin-top: 10px;
+      width: 80%;
+      opacity: 0;
+      animation: fadeInout 2s;
+  }
+  @keyframes fadeInout {
+      0% { opacity : 0; }
+      70% { opacity : 1; }
+      100% { opacity : 0; }
+  }

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Upload csv {% endblock %}   
+
+{% block content %} 
+    <center>
+        <div class="wrapper" style="padding:3%;" >
+            <form class="form-signin" action="{% url 'uploadFile' %}" enctype="multipart/form-data" method="POST">     
+                {% csrf_token %}  
+                <h2 class="form-signin-heading">Asset Documentation portal</h2>
+                <!-- <input type="text" class="form-control col-sm-4" name="Fid" style="margin-top: 2%;" placeholder="user ID" required="" autofocus="" />
+                <input type="text" class="form-control col-sm-4" name="Fname" style="margin-top: 2%;" placeholder="user Name" required="" autofocus="" /> -->
+                <div class="form-check col-sm-4" style="margin-top: 2%; text-align: left;max-width: 500px !important;">
+                    <h2>Choose the uploading item:</h2>
+                    <div style="margin-left: 10%;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+
+                    <input class="form-check-input" type="radio" name="upload" id="hardware" value="hardware" onclick="show_hide_radio('hardware-d')" required>
+                    <label class="form-check-label" for="hardware">Hardware csv</label>
+                    <div id="hardware-d" style="display: none;">
+                    <input type="file" class="form-control" id="hardware-d0" name="hardware-d0" /></div><br>
+                    
+                    <input class="form-check-input" type="radio" name="upload" id="userlist" value="userlist" onclick="show_hide_radio('userlist-d')">
+                    <label class="form-check-label" for="userlist">User list csv</label>
+                    <div id="userlist-d" style="display: none;">
+                    <input type="file" class="form-control" id="userlist-d0" name="userlist-d0" /></div><br>
+
+                </div>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block col-sm-2 " style="margin-top: 1%;" type="submit">Upload</button>   
+            </form>
+        </div>
+    </center>
+{% endblock %}
+{% block aditionaljs %}
+    <script>
+        var radiolist=['userlist-d','hardware-d'];
+        var upload_attribute={0:['userlist-d0'],1:['hardware-d0']};
+        function show_hide_radio(toshow){
+            document.getElementById(toshow).style.display="block";
+            for(var i=0;i<radiolist.length;i++){
+                if(radiolist[i]!=toshow){
+                    document.getElementById(radiolist[i]).style.display='none';
+                    for(var j=0;j<upload_attribute[i].length;j++){
+                        document.getElementById(upload_attribute[i][j]).required = false;
+                    }
+                }
+                else{
+                    console.log('Match in list')
+                    for(var j=0;j<upload_attribute[i].length;j++){
+                        document.getElementById(upload_attribute[i][j]).required = true;
+                    }
+                }
+
+                    
+            }
+        }
+    </script>
+{% endblock %}

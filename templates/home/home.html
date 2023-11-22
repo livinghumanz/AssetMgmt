@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Home {% endblock %}   
+
+{% block content %} 
+
+<div class="card" style="margin-top: 15px; width: 100%;padding: 0.5%;">
+    <center>
+        <!-- <div id="filter_drop" style="width: 90%; padding: 1%;">
+            <form action="{% url 'home' %}" enctype="multipart/form-data" method="POST">     
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <span class="row"><label for="feature_dd" style="text-align: left;" > Feature : </label></span>
+                            <span class="row">
+                                <select  id="feature_dd" name="feature_dd" class="custom-select mr-sm-2">
+                                    <option selected>Choose...</option>
+                                    {% for feature in feature_list %}
+                                    <option value="{{ feature }}">{{ feature }}</option>
+                                    {% endfor %}
+                                </select>
+                            </span>
+                        </div>
+                        <div class="col-sm" style="padding-left: 6%;">
+                            <span class="row"><label for="sub-feature_dd" style="text-align: left;" > Sub-Feature : </label></span>
+                            <span class="row">
+                                <select  id="sub-feature_dd" name="sub-feature_dd" class="custom-select mr-sm-2">
+                                    <option selected>Choose...</option>
+                                    {% for sub_feature in sub_feature_list %}
+                                    <option value="{{ sub_feature }}">{{ sub_feature }}</option>
+                                    {% endfor %}
+                                    
+                                </select>
+                            </span>
+                        </div>
+                        <div class="col-lg-2" style="padding-left: 5%;">
+                            <span class="row"><label style="color: rgba(250, 250, 250, 0); user-select: none;">submit</label></span>
+                            <span class="row"><button type="submit" class="btn btn-primary">Submit</button></span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div> -->
+    </center>
+    <div id="filtered_list" style="margin-top: 20px;">
+        <table class="table table-bordered" id="handbook_table">
+            <thead>
+            <tr>
+                <th scope="col">Asset ID</th>
+                <th scope="col">Asset Name</th>
+                <th scope="col">IN_OUT Status</th>
+                <th scope="col">Holder ID</th>
+                <th scope="col">Send Report</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for result in result_list1 %}
+            <tr>
+                <!--<th scope="row">{{ len }}</th>-->
+                <td>{{ result.assetid }}</td>
+                <td>{{ result.asset_name }}</td>
+                <td> <span style="color: {{ result.color_s }};">{{ result.in_out_status }}</span></td>
+                <td>{{ result.holder }}</td>
+                <td>
+                    <form action="{% url 'testApi' %}" enctype="multipart/form-data" method="POST">     
+                        {% csrf_token %} 
+                        <input type="text" name="assetid" id="assetid" value="{{ result.assetid }}" style="display: none;"/>
+                        <button type="submit">Full report</button>
+                    </form>
+                    
+                    <!-- {{ result.coding_param }} -->
+                
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div> 
+
+
+
+</div>
+
+{% endblock %}
+
+{% block aditionaljs %}
+
+{% endblock %}
