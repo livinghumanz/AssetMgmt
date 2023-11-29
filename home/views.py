@@ -77,7 +77,7 @@ def testApi(request):
     if request.method =='POST':
         assetid = request.POST['assetid']
         res = list(In_Out_log.objects.all().filter(asset=assetid))
-        message_str = '''Asset_id, Asset_name,Asset_Description,Employee_id,Employee_name,Employee_contact,check_in_date,return_date
+        message_str = '''Asset_id, Asset_name,Asset_Description,location,Employee_id,Employee_name,Employee_contact,check_in_date,return_date
         
         '''
         final_dump =[]
@@ -86,6 +86,7 @@ def testApi(request):
             res1.append(ele.asset.asset_id)
             res1.append(ele.asset.asset_name)
             res1.append(ele.asset.asset_description)
+            res1.append(ele.asset.base_location)
             res1.append(ele.emp.emp_id)
             res1.append(ele.emp.emp_name)
             res1.append(ele.emp.contact)
@@ -106,7 +107,7 @@ def testApi(request):
 
         response= HttpResponse(content_type = 'text/csv')
         writer = csv.writer(response)
-        writer.writerow(['Asset_id','Asset_name','Asset_Description','Employee_id','Employee_name','Employee_contact','check_in_date','return_date'])
+        writer.writerow(['Asset_id','Asset_name','Asset_Description','location','Employee_id','Employee_name','Employee_contact','check_in_date','return_date'])
         
         for entry in final_dump:
             '''entry1= list(entry)
@@ -191,8 +192,10 @@ def log_checkin_out(request):
             try:
                 In_Out_log.objects.create(asset=asset_instance[0],emp=employee_instance[0],checkin_date=datetime.now())
                 log_status = "Asset checked-in successful !!!"
+                messages.success(request,log_status)
             except:
                 log_status = "Check-in not done, please try again !!!"
+                messages.warning(request,log_status)
 
         elif len(res) >=1:
             # update the first entry
@@ -201,14 +204,17 @@ def log_checkin_out(request):
                 update_return.return_date = datetime.now()
                 update_return.save()
                 log_status = "Asset returned successful ..."
+                messages.success(request,log_status)
             except:
                 log_status = " Asset not returned, please use valid data !!! "
+                messages.warning(request,log_status)
 
 
     else:
         # messages.warning(request,"invalid entry !!! ")
         print("sad not matched ....")
         log_status = "invalid Qr code scanned, please scan Asset QR followed by employee ID..."
+        messages.error(request,log_status)
 
 
         '''
@@ -224,5 +230,6 @@ def log_checkin_out(request):
 
 
         '''
-
-    return JsonResponse({'Asset':QrAsset,'Employee':QrUser,'log_status':log_status})
+    
+    return redirect('/')
+    # return JsonResponse({'Asset':QrAsset,'Employee':QrUser,'log_status':log_status})
